@@ -12,6 +12,8 @@ def recommend_products(model_file, df, target_user_id, target_product_id, top_n=
     related_sessions = df[df["user_session"].isin(filtered_sessions)]
     candidate_products = related_sessions["product_id"].unique()
 
+    candidate_products = [product_id for product_id in candidate_products if product_id != target_product_id]
+
     # Predict scores for the candidate products
     predicted_scores = [
         (product_id, model.predict(target_user_id, product_id).est)

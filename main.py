@@ -1,10 +1,8 @@
 from recommend.preprocessing import preprocess_data
 from recommend.train_model import train_model
 from recommend.session_based_recommend import recommend_products
-import kagglehub
 import pandas as pd
 import os
-import pickle
 from sklearn.preprocessing import LabelEncoder
 
 # Step 1: Specify the CSV file path directly
@@ -19,22 +17,22 @@ if not os.path.exists(csv_file_path):
     raise FileNotFoundError(f"Dataset file not found at {csv_file_path}")
 
 # # Step 2: Preprocess data
-# print("Preprocessing data...")
-# df, df_weighted = preprocess_data(csv_file_path)
+print("Preprocessing data...")
+df, df_weighted = preprocess_data(csv_file_path)
 
 # Step 3: Train model only if it doesn't already exist
 model_file = "model.pkl"
 
-# if not os.path.exists(model_file):
-#     print("Training model...")
-#     train_model(df_weighted, model_file)
-# else:
-#     print(f"Model already exists at {model_file}. Skipping training.")
+if not os.path.exists(model_file):
+    print("Training model...")
+    train_model(df_weighted, model_file)
+else:
+    print(f"Model already exists at {model_file}. Skipping training.")
 
 # Step 4: Generate recommendations
 print("Generating recommendations...")
-target_user_id = 10
-target_product_id = 7
+target_user_id = 1
+target_product_id = 1
 
 # Use the preprocessed dataframe for recommendations
 recommendations = recommend_products(model_file, df, target_user_id, target_product_id)
